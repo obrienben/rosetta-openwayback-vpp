@@ -1,0 +1,37 @@
+<pl:metadata-config xmlns:pl="http://www.exlibrisgroup.com/Plugins/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <pl:pluginTypeName>VPPPlugin</pl:pluginTypeName>
+  <pl:deployName>WaybackUrnVpp</pl:deployName>
+ <pl:className>org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.WaybackUrnVpp</pl:className>
+  <pl:initParameters>
+  <fr:x_form  xmlns:fr="http://com/exlibris/digitool/common/forms/xmlbeans">
+	<form_name>WaybackUrnVpp_Params</form_name>
+	<description>WaybackUrnVpp_parameters_form</description>
+	<version>1.0</version>
+	<grid_x>1</grid_x>
+	<md_format>1</md_format>
+	<x_fields></x_fields>
+</fr:x_form>
+</pl:initParameters>
+  <pl:description>Wayback Urn Viewer PreProcessor</pl:description>
+  <pl:version>1</pl:version>
+  <pl:materialType>Website</pl:materialType>
+  <pl:module>Delivery</pl:module>
+  <pl:generalType>TASK</pl:generalType>
+  <pl:publicApi>N</pl:publicApi>
+  <pl:implType>java</pl:implType>
+  <pl:contactPerson>
+    <contact_info xmlns="http://www.exlibrisgroup.com/Plugins/1.0/">
+      <contactType>admin</contactType>
+      <firstName>Marcus</firstName>
+      <lastName>Bitzl</lastName>
+      <telephone1></telephone1>
+      <telephone2></telephone2>
+      <email>marcus.bitzl@bsb-muenchen.de</email>
+      <address1>Ludwigstr 16</address1>
+      <address2></address2>
+      <city>Munich</city>
+      <zipCode>80539</zipCode>
+      <country>Germany</country>
+    </contact_info>
+  </pl:contactPerson>
+</pl:metadata-config>
