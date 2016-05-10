@@ -15,8 +15,12 @@ public class WaybackUrlService {
     return waybackDateFormat.format(date);
   } 
   
-  public String createUrlPath(String seed, Date harvestDate) {
+  public String createDetailUrlPath(String seed, Date harvestDate) {
     return "/" + urlDateString(harvestDate) + "/" + seed;
+  }
+  
+  public String createOverviewQueryString(String seed) {
+    return "url=" + seed;
   }
   
 }

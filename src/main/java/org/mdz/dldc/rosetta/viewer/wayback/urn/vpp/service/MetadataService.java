@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
+ * Process data from Rosetta.
+ * 
  * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
  */
 public class MetadataService {

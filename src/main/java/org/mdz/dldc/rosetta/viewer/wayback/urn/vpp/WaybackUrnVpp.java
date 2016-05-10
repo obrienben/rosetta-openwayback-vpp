@@ -3,6 +3,7 @@ package org.mdz.dldc.rosetta.viewer.wayback.urn.vpp;
 import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import java.text.ParseException;
+import java.util.Map;
 import org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service.MetadataService;
 import org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service.WaybackUrlService;
 
@@ -11,6 +12,10 @@ import org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service.WaybackUrlService;
  * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
  */
 public class WaybackUrnVpp extends AbstractViewerPreProcessor {
+  
+  private static final String DETAIL_KEY = "detail";
+  
+  private static final String DEFAULT_MARKER = "###";
   
   private final WaybackUrlService waybackUrlService;
   
@@ -25,15 +30,23 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   
   @Override
   public void execute() throws Exception {
-    DnxDocumentHelper documentHelper = new DnxDocumentHelper(getDnx());
-    additionalParameters = createUrlPath(documentHelper.getWebHarvesting());
+    execute(new DnxDocumentHelper(getDnx()), getViewContext());
+  }
+  
+  public void execute(DnxDocumentHelper documentHelper, Map<String, String> viewContext) throws ParseException {
+    if (hasRequestedDetail(viewContext)) {
+      additionalParameters = createUrlPath(documentHelper.getWebHarvesting());
+    }
+    else {
+      additionalParameters = createOverviewQuery(documentHelper.getWebHarvesting());
+    }    
   }
 
   public String createUrlPath(DnxDocumentHelper.WebHarvesting webHarvesting) throws ParseException {
     String marker = getMarker();
     StringBuilder builder = new StringBuilder();
     builder.append(marker);
-    builder.append(waybackUrlService.createUrlPath(webHarvesting.getPrimarySeedURL(), metadataService.parseHarvestDate(webHarvesting.getHarvestDate())));
+    builder.append(waybackUrlService.createDetailUrlPath(webHarvesting.getPrimarySeedURL(), metadataService.parseHarvestDate(webHarvesting.getHarvestDate())));
     builder.append(marker);
     return builder.toString();
   }
@@ -44,7 +57,15 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   }
 
   public String getMarker() {
-    return "###";
+    return DEFAULT_MARKER;
+  }
+
+  public boolean hasRequestedDetail(Map<String, String> viewContext) {
+    return viewContext.containsKey(DETAIL_KEY) && "true".equals(viewContext.get(DETAIL_KEY));
+  }
+
+  public String createOverviewQuery(DnxDocumentHelper.WebHarvesting webHarvesting) {
+    return waybackUrlService.createOverviewQueryString(webHarvesting.getPrimarySeedURL());
   }
   
 }
