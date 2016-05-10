@@ -14,7 +14,7 @@
 </pl:initParameters>
   <pl:description>Wayback Urn Viewer PreProcessor</pl:description>
   <pl:version>1</pl:version>
-  <pl:materialType>Website</pl:materialType>
+  <pl:materialType>DIGITAL</pl:materialType>
   <pl:module>Delivery</pl:module>
   <pl:generalType>TASK</pl:generalType>
   <pl:publicApi>N</pl:publicApi>
