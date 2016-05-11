@@ -11,10 +11,39 @@ Detail view mode needs a webserver redirect due to technical restrictions of Ros
 
 The mode is selected by the viewer option `detail`. The value `true` selects detail mode, every other value (or none) selects overview mode.
 
+### Options
+
+The VPP supports several options. To set an option, go in Rosetta Admin Backend to your delivery rule, section `Output Parameters`. Add an option using `name=value`.
+
+| Option   | Value     | Description |
+| -------- | --------- | ----------- |
+| `detail` | `true`    | Directs the user to the capture represented by the IE (URL at a certain harvest time). |
+|          | `false`   | Directs the user to the overview page as if the user had searched for the URL in Wayback. |
+|          | *default* | `false` |
+| `marker` | *any*     | A string used to delimit the relevant URL in part for detail view for webserver redirects. |
+|          | *default* | `~~~` |
+
+
 ## Installation
 
+### Rosetta
+
 1. Move the JAR-file to `./operational_shared/plugins/custom`.
-2. Create a new viewer in the admin backend of Rosetta, selecting the jar file.
+1. Rosetta Admin Backend: Go to `Plugin-Management --> Custom Plugins` and add a new `Plugin Instance`
+1. Rosetta Admin Backend: Go to `Delivery --> Viewers Management --> Add External Viewer`:
+  - `Level` needs to be `IE`.
+  - `URL` needs to be `http://<WAYBACK_HOSTNAME>/wayback/query`
+1. Rosetta Admin Backend: Go to `Delivery --> IE Delivery Rules --> Add New Delivery Rule`. At `Output Parameters` add `detail=true` for detail mode.
+
+### Apache Webserver
+
+An example configuration for Apache Webserver. Only needed for detail mode. Same scheme would work with other webservers as well (fell free to contribute more configuration examples).
+
+```apache
+RewriteEngine on
+RewriteRule "http://example.com/wayback/query?is_mobile=false&is_rtl=false&~~~(.*)~~~&.*&detail=true http://example.com/wayback/$1 [L]
+"
+```
 
 ## Development
 
