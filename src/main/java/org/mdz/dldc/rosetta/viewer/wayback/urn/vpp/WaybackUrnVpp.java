@@ -15,7 +15,7 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   
   private static final String DETAIL_KEY = "detail";
   
-  private static final String DEFAULT_MARKER = "###";
+  private static final String DEFAULT_MARKER = "~~~";
   
   private final WaybackUrlService waybackUrlService;
   
@@ -35,15 +35,15 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   
   public void execute(DnxDocumentHelper documentHelper, Map<String, String> viewContext) throws ParseException {
     if (hasRequestedDetail(viewContext)) {
-      additionalParameters = createUrlPath(documentHelper.getWebHarvesting());
+      additionalParameters = createUrlPath(documentHelper.getWebHarvesting(), viewContext);
     }
     else {
       additionalParameters = createOverviewQuery(documentHelper.getWebHarvesting());
     }    
   }
 
-  public String createUrlPath(DnxDocumentHelper.WebHarvesting webHarvesting) throws ParseException {
-    String marker = getMarker();
+  public String createUrlPath(DnxDocumentHelper.WebHarvesting webHarvesting, Map<String, String> viewContext) throws ParseException {
+    String marker = getMarker(viewContext);
     StringBuilder builder = new StringBuilder();
     builder.append(marker);
     builder.append(waybackUrlService.createDetailUrlPath(webHarvesting.getPrimarySeedURL(), metadataService.parseHarvestDate(webHarvesting.getHarvestDate())));
@@ -56,8 +56,8 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
     return additionalParameters;
   }
 
-  public String getMarker() {
-    return DEFAULT_MARKER;
+  public String getMarker(Map<String, String> viewContext) {
+    return viewContext.getOrDefault("marker", DEFAULT_MARKER);
   }
 
   public boolean hasRequestedDetail(Map<String, String> viewContext) {

@@ -37,14 +37,14 @@ public class WaybackUrnVppTest {
 
   @Test
   public void createUrlPathResultShouldStartAndEndWithMarkers() throws ParseException {
-    String marker = vpp.getMarker();
-    String path = vpp.createUrlPath(webHarvesting);
+    String marker = vpp.getMarker(emptyMap());
+    String path = vpp.createUrlPath(webHarvesting, emptyMap());
     assertThat(path, allOf(startsWith(marker), endsWith(marker)));
   }
 
   @Test
   public void createUrlPathResultShouldContainUrlPath() throws ParseException {
-    String path = vpp.createUrlPath(webHarvesting);
+    String path = vpp.createUrlPath(webHarvesting, emptyMap());
     assertThat(path, containsString("/20140312135704/http://wwww.bahn.de")); 
   }
 
@@ -90,4 +90,17 @@ public class WaybackUrnVppTest {
     vpp.execute(documentHelper, emptyMap());
     assertThat(vpp.getAdditionalParameters(), containsString("url"));
   }
+  
+  @Test
+  public void getMarkerShouldBeConfigurable() {
+    Map<String, String> viewContext = new HashMap<>();
+    viewContext.put("marker", "ABC");
+    assertThat(vpp.getMarker(viewContext), is("ABC"));
+  }
+  
+  @Test
+  public void getMarkerShouldHaveDefaultValue() {
+    assertThat(vpp.getMarker(emptyMap()), is("~~~"));
+  }
+  
 }
