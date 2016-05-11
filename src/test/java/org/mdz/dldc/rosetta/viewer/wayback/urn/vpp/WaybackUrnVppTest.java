@@ -100,7 +100,7 @@ public class WaybackUrnVppTest {
   
   @Test
   public void getMarkerShouldHaveDefaultValue() {
-    assertThat(vpp.getMarker(emptyMap()), is("~~~"));
+    assertThat(vpp.getMarker(emptyMap()), is("@"));
   }
   
 }

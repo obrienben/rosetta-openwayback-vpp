@@ -15,7 +15,7 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   
   private static final String DETAIL_KEY = "detail";
   
-  private static final String DEFAULT_MARKER = "~~~";
+  private static final String DEFAULT_MARKER = "@";
   
   private final WaybackUrlService waybackUrlService;
   
