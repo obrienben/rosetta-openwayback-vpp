@@ -21,7 +21,7 @@ The VPP supports several options. To set an option, go in Rosetta Admin Backend 
 |          | `false`   | Directs the user to the overview page as if the user had searched for the URL in Wayback. |
 |          | *default* | `false` |
 | `marker` | *any*     | A string used to delimit the relevant URL in part for detail view for webserver redirects. |
-|          | *default* | `~~~` |
+|          | *default* | `@` |
 
 
 ## Installation
@@ -41,8 +41,8 @@ An example configuration for Apache Webserver. Only needed for detail mode. Same
 
 ```apache
 RewriteEngine on
-RewriteRule "http://example.com/wayback/query?is_mobile=false&is_rtl=false&~~~(.*)~~~&.*&detail=true http://example.com/wayback/$1 [L]
-"
+RewriteCond %{QUERY_STRING} ^(([^&]*&)*)@(.*)@(.*)$
+RewriteRule ^query$ /%3? [L]
 ```
 
 ## Development
