@@ -1,5 +1,6 @@
-package org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service;
+package de.digitalcollections.rosetta.vpp.openwayback.service;
 
+import de.digitalcollections.rosetta.vpp.openwayback.service.MetadataService;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

@@ -1,17 +1,17 @@
-package org.mdz.dldc.rosetta.viewer.wayback.urn.vpp;
+package de.digitalcollections.rosetta.vpp.openwayback;
 
 import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
+import de.digitalcollections.rosetta.vpp.openwayback.service.MetadataService;
+import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
 import java.text.ParseException;
 import java.util.Map;
-import org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service.MetadataService;
-import org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service.WaybackUrlService;
 
 /**
  *
  * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
  */
-public class WaybackUrnVpp extends AbstractViewerPreProcessor {
+public class OpenWaybackVpp extends AbstractViewerPreProcessor {
   
   private static final String DETAIL_KEY = "detail";
   
@@ -23,7 +23,7 @@ public class WaybackUrnVpp extends AbstractViewerPreProcessor {
   
   private String additionalParameters;
 
-  public WaybackUrnVpp() {
+  public OpenWaybackVpp() {
     this.waybackUrlService = new WaybackUrlService();
     this.metadataService = new MetadataService();
   }

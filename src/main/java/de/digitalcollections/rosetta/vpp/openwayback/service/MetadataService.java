@@ -1,4 +1,4 @@
-package org.mdz.dldc.rosetta.viewer.wayback.urn.vpp.service;
+package de.digitalcollections.rosetta.vpp.openwayback.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

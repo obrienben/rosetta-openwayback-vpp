@@ -1,5 +1,6 @@
-package org.mdz.dldc.rosetta.viewer.wayback.urn.vpp;
+package de.digitalcollections.rosetta.vpp.openwayback;
 
+import de.digitalcollections.rosetta.vpp.openwayback.OpenWaybackVpp;
 import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.access.AccessException;
 import java.text.ParseException;
@@ -21,15 +22,15 @@ import static org.mockito.Mockito.when;
  *
  * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
  */
-public class WaybackUrnVppTest {
+public class OpenWaybackVppTest {
   
-  private WaybackUrnVpp vpp;
+  private OpenWaybackVpp vpp;
   
   private DnxDocumentHelper.WebHarvesting webHarvesting;
   
   @Before
   public void setUp() throws AccessException {
-    vpp = new WaybackUrnVpp();
+    vpp = new OpenWaybackVpp();
     webHarvesting = mock(DnxDocumentHelper.WebHarvesting.class);
     when(webHarvesting.getHarvestDate()).thenReturn("12/03/2014 13:57:04");
     when(webHarvesting.getPrimarySeedURL()).thenReturn("http://wwww.bahn.de");
