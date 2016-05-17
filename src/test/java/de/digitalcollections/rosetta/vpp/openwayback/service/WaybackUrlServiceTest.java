@@ -1,6 +1,5 @@
 package de.digitalcollections.rosetta.vpp.openwayback.service;
 
-import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,10 +8,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
- */
+
 public class WaybackUrlServiceTest {
 
   private static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

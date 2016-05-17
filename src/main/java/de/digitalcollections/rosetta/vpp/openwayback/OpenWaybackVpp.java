@@ -7,10 +7,7 @@ import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
 import java.text.ParseException;
 import java.util.Map;
 
-/**
- *
- * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
- */
+
 public class OpenWaybackVpp extends AbstractViewerPreProcessor {
   
   private static final String DETAIL_KEY = "detail";

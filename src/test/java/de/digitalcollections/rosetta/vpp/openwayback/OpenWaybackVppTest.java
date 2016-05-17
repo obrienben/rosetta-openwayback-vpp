@@ -1,6 +1,5 @@
 package de.digitalcollections.rosetta.vpp.openwayback;
 
-import de.digitalcollections.rosetta.vpp.openwayback.OpenWaybackVpp;
 import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.access.AccessException;
 import java.text.ParseException;
@@ -18,10 +17,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- *
- * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
- */
+
 public class OpenWaybackVppTest {
   
   private OpenWaybackVpp vpp;

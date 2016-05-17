@@ -4,8 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
- * @author Marcus Bitzl <marcus.bitzl@bsb-muenchen.de>
+ * Prepare data for OpenWayback.
+ * 
  */
 public class WaybackUrlService {
     
