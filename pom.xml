@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mdz.dldc.rosetta.viewer</groupId>
-    <artifactId>open-wayback-vpp</artifactId>
+    <groupId>de.digitalcollections.rosetta</groupId>
+    <artifactId>rosetta-openwayback-vpp</artifactId>
     <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
     
@@ -81,6 +81,32 @@
             </goals>
           </execution>
         </executions>
+        </plugin>
+        <plugin>
+          <!-- Usage: mvn site:site, mvn site:deploy-->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.5.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.doxia</groupId>
+              <artifactId>doxia-module-markdown</artifactId>
+              <version>1.7</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <reportPlugins>
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                  <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                  <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+              </plugin>
+            </reportPlugins>
+          </configuration>
         </plugin>
       </plugins>
     </build>
