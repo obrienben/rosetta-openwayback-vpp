@@ -47,7 +47,7 @@ RewriteRule ^query$ /%3? [L]
 
 ## Development
 
-To build this project the Rosetta PDS SDK from GitHub is needed (there is no public Maven repository). To install the SDK, you have to download and install it locally:
+To build this project the [Rosetta PDS SDK](https://developers.exlibrisgroup.com/rosetta/sdk) from [GitHub](https://github.com/ExLibrisGroup/Rosetta.dps-sdk-projects/tree/master/current/dps-sdk-plugins/lib) is needed as there is no public Maven repository. Note that the jar-Files for "deposit" and "plugin" are the same, but "deposit" has more Rosetta-Versions. To use the SDK, you have to download and install it locally:
 
 ```bash
 curl -sS -O https://raw.githubusercontent.com/ExLibrisGroup/Rosetta.dps-sdk-projects/master/5.0.1/dps-sdk-deposit/lib/dps-sdk-5.0.1.jar
