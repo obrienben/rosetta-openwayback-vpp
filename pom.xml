@@ -20,6 +20,7 @@
         <groupId>com.exlibris.dps</groupId>
         <artifactId>dps-sdk</artifactId>
         <version>5.0.1</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
