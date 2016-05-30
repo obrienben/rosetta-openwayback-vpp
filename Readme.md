@@ -42,7 +42,7 @@ An example configuration for Apache Webserver. Only needed for detail mode. Same
 ```apache
 RewriteEngine on
 RewriteCond %{QUERY_STRING} ^(([^&]*&)*)@(.*)@(.*)$
-RewriteRule ^query$ /%3? [L]
+RewriteRule ^/wayback/query$ /wayback%3? [L]
 ```
 
 ## Development
