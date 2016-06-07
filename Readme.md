@@ -1,4 +1,6 @@
 # Rosetta Wayback VPP
+[![Build Status](https://travis-ci.org/dbmdz/rosetta-openwayback-vpp.svg?branch=master)](https://travis-ci.org/dbmdz/rosetta-openwayback-vpp)
+[![codecov](https://codecov.io/gh/dbmdz/rosetta-openwayback-vpp/branch/master/graph/badge.svg)](https://codecov.io/gh/dbmdz/rosetta-openwayback-vpp)
 
 ## About
 
