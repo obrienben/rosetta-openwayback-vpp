@@ -1,8 +1,8 @@
-# Rosetta Wayback VPP
+# Rosetta OpenWayback VPP
 [![Build Status](https://travis-ci.org/dbmdz/rosetta-openwayback-vpp.svg?branch=master)](https://travis-ci.org/dbmdz/rosetta-openwayback-vpp)
 [![codecov](https://codecov.io/gh/dbmdz/rosetta-openwayback-vpp/branch/master/graph/badge.svg)](https://codecov.io/gh/dbmdz/rosetta-openwayback-vpp)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8dcb657dd6eb4f239f4d861706ed40df)](https://www.codacy.com/app/marcus_2/rosetta-openwayback-vpp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dbmdz/rosetta-openwayback-vpp&amp;utm_campaign=Badge_Grade)
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 
 ## About
