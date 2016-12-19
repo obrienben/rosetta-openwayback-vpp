@@ -1,18 +1,21 @@
 package de.digitalcollections.rosetta.vpp.openwayback;
 
 import com.exlibris.core.infra.common.exceptions.logging.ExLogger;
+import com.exlibris.core.sdk.consts.*;
+import com.exlibris.core.sdk.consts.Enum;
 import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.access.Access;
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import com.exlibris.dps.sdk.deposit.IEParser;
 import de.digitalcollections.rosetta.vpp.openwayback.service.MetadataService;
 import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
-import gov.loc.mets.FileType;
-import gov.loc.mets.MetsType;
+import gov.loc.mets.*;
+import org.apache.xmlbeans.XmlObject;
 //import org.apache.xmlbeans.XmlObject;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -89,14 +92,16 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
 
     try {
       Access dps_access = getAccess();
-      IEParser ieparser = dps_access.getIE(ieParentId, "", "");
-      MetsType.FileSec fileSec = ieparser.getFileSec();
-      MetsType.FileSec.FileGrp ieFiles = fileSec.getFileGrpArray(0);
+      IEParser ieparserFull = dps_access.getExtendedIeByDvs(dvs, (long) 16);
+      MetsType.FileSec fileSec = ieparserFull.getFileSec();
+      MetsType.FileSec.FileGrp fileSecGrp = fileSec.getFileGrpArray(0);
+//      logger.info("OpenWayback VPP - fileSecGrp sizeOfFileArray: " + fileSecGrp.sizeOfFileArray());
+//      logger.info("OpenWayback VPP - ieparserFull xml: " + ieparserFull.toXML());
 
-      for(FileType fileType : ieFiles.getFileArray()){
-        fileType.getMIMETYPE();
+      for(FileType fileType : fileSecGrp.getFileArray()) {
         FileType.FLocat location = fileType.getFLocatArray(0);
         String filePath = location.getHref();
+        logger.info("OpenWayback VPP - found filepath: " + filePath);
         if(filePath.endsWith(".warc") || filePath.endsWith(".arc")){
           String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
           paths.put(fileName, filePath);
