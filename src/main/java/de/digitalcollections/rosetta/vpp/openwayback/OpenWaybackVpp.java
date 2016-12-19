@@ -7,6 +7,8 @@ import com.exlibris.digitool.common.dnx.DnxDocumentHelper;
 import com.exlibris.dps.sdk.access.Access;
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import com.exlibris.dps.sdk.deposit.IEParser;
+import com.google.gson.Gson;
+import de.digitalcollections.rosetta.vpp.openwayback.service.HttpConnectionService;
 import de.digitalcollections.rosetta.vpp.openwayback.service.MetadataService;
 import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
 import gov.loc.mets.*;
@@ -30,6 +32,8 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
   private final WaybackUrlService waybackUrlService;
   
   private final MetadataService metadataService;
+
+  private final HttpConnectionService resourceStoreConn;
   
   private String additionalParameters;
 
@@ -38,6 +42,7 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
   public OpenWaybackVpp() {
     this.waybackUrlService = new WaybackUrlService();
     this.metadataService = new MetadataService();
+    this.resourceStoreConn = new HttpConnectionService();
   }
   
   @Override
@@ -49,6 +54,8 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
     if (hasRequestedDetail(viewContext)) {
 
       extractHarvestFilePaths();
+
+      updateResourceStore();
 
       additionalParameters = createUrlPath(documentHelper.getWebHarvesting(), viewContext);
     }
@@ -119,5 +126,17 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
 
     filePaths = paths;
   }
-  
+
+  public void updateResourceStore() {
+
+    byte[] filePathsJSON = new Gson().toJson(filePaths).getBytes();
+
+    try {
+      resourceStoreConn.post(filePathsJSON);
+    } catch (Exception e) {
+      logger.error("Error in OpenWayback Pre-Processor Plugin - cannot update resource store", e, getPid());
+    }
+
+  }
+
 }

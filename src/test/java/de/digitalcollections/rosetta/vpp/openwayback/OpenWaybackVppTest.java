@@ -15,6 +15,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
+import com.google.gson.Gson;
+import de.digitalcollections.rosetta.vpp.openwayback.service.HttpConnectionService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,14 +26,18 @@ public class OpenWaybackVppTest {
   private OpenWaybackVpp vpp;
   
   private DnxDocumentHelper.WebHarvesting webHarvesting;
+  private HttpConnectionService resourceStoreConn;
   
   @Before
   public void setUp() throws AccessException {
     vpp = spy(new OpenWaybackVpp());
+    resourceStoreConn = new HttpConnectionService();
     webHarvesting = mock(DnxDocumentHelper.WebHarvesting.class);
     when(webHarvesting.getHarvestDate()).thenReturn("12/03/2014 13:57:04");
     when(webHarvesting.getPrimarySeedURL()).thenReturn("http://wwww.bahn.de");
+    when(resourceStoreConn.post(new byte[])).thenReturn("http://wwww.bahn.de");
     doNothing().when(vpp).extractHarvestFilePaths();
+    doNothing().when(vpp).updateResourceStore();
   }
 
   @Test
@@ -101,5 +107,21 @@ public class OpenWaybackVppTest {
   public void getMarkerShouldHaveDefaultValue() {
     assertThat(vpp.getMarker(emptyMap()), is("@"));
   }
-  
+
+  @Test
+  public void postFilePathsToResourceStore() throws ParseException {
+    HashMap<String, String> filePathsTest = new HashMap<>();
+    filePathsTest.put("V1-FL888888.warc", "/vendor/some_storage/doc_02/file_1/V1-FL888888.warc");
+    filePathsTest.put("V1-FL777777.warc", "/vendor/some_storage/doc_02/file_1/V1-FL777777.warc");
+    filePathsTest.put("V1-FL666666.warc", "/vendor/some_storage/doc_02/file_1/V1-FL666666.warc");
+    filePathsTest.put("V1-FL555555.warc", "/vendor/some_storage/doc_02/file_1/V1-FL555555.warc");
+    byte[] filePathsJSON = new Gson().toJson(filePathsTest).getBytes();
+    String result = null;
+    try {
+      result = resourceStoreConn.post(filePathsJSON);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    assertThat(result, containsString("20140312135704"));
+  }
 }
