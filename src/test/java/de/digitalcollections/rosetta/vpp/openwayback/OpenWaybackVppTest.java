@@ -12,10 +12,11 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
+
+import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 public class OpenWaybackVppTest {
@@ -26,10 +27,11 @@ public class OpenWaybackVppTest {
   
   @Before
   public void setUp() throws AccessException {
-    vpp = new OpenWaybackVpp();
+    vpp = spy(new OpenWaybackVpp());
     webHarvesting = mock(DnxDocumentHelper.WebHarvesting.class);
     when(webHarvesting.getHarvestDate()).thenReturn("12/03/2014 13:57:04");
     when(webHarvesting.getPrimarySeedURL()).thenReturn("http://wwww.bahn.de");
+    doNothing().when(vpp).extractHarvestFilePaths();
   }
 
   @Test
