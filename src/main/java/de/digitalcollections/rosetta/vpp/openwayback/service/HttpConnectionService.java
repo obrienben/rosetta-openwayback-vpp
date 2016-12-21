@@ -21,8 +21,7 @@ import java.util.Map;
 public class HttpConnectionService {
     private static final ExLogger logger = ExLogger.getExLogger(HttpConnectionService.class);
 
-    private String hostName = "http://localhost/OWResourceStore";
-    private String apiKey = "";
+    private String hostName = "http://localhost:8080/OWResourceStore/";
     private String proxyHost = null;
     private int proxyPort;
     private String errorMessage = "Error executing query. Please try again, and if the issue persists please contact Support";
@@ -40,63 +39,47 @@ public class HttpConnectionService {
      * @return                              string response
      */
     public String post(byte[] requestBody) throws Exception {
-//		try {
+
         StringBuilder responseData = new StringBuilder();
         StringBuilder urlBuilder = new StringBuilder();
         String updateResponse = "";
-        try {
-            // Build and append query string
-            urlBuilder = new StringBuilder(hostName);
+        // Build and append query string
+        urlBuilder = new StringBuilder(hostName);
 //            urlBuilder.append(apiCall);
 //            buildQueryString(urlBuilder, extraQueryStringParameters);
-            URL restUrl = new URL(urlBuilder.toString());
+        URL restUrl = new URL(urlBuilder.toString());
 
-            // Establish HTTP connection
-            HttpURLConnection con = getConnection(restUrl);
-            con.setRequestMethod("POST");
-            con.setFixedLengthStreamingMode(requestBody.length);
-            con.setDoOutput(true);
+        // Establish HTTP connection
+        HttpURLConnection con = getConnection(restUrl);
+        con.setRequestMethod("POST");
+        con.setFixedLengthStreamingMode(requestBody.length);
+        con.setDoOutput(true);
 
-            // Set any Header request properties
-            con.setRequestProperty("Content-Type", "application/json");
+        // Set any Header request properties
+//            con.setRequestProperty("Content-Type", "application/json");
 //            setHeaderProperties(con, getDefaultHeaderRequestPropertyMap("update"), extraHeaderRequestProperties);
 
-            logger.info("OpenWayback VPP - HttpConnection post to: " + urlBuilder.toString());
+        logger.info("OpenWayback VPP - HttpConnection post to: " + urlBuilder.toString());
 
-            OutputStream out = con.getOutputStream();
-            out.write(requestBody);
-            if (con.getResponseCode() >= 400) {
-                InputStreamReader isr = new InputStreamReader(con.getErrorStream());
-                BufferedReader in = new BufferedReader(isr);
+        OutputStream out = con.getOutputStream();
+        out.write(requestBody);
 
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                {
-                    responseData.append(inputLine);
-                }
-                in.close();
-                con.disconnect();
-//                System.out.println(responseData.toString());
-                logger.error(responseData.toString());
-            } else {
-                InputStreamReader isr = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
-                BufferedReader in = new BufferedReader(isr);
-
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                {
-                    logger.info("OpenWayback VPP - HttpConnection response: " + inputLine);
-                    responseData.append(inputLine);
-                }
-                in.close();
-                con.disconnect();
-                updateResponse = responseData.toString();
-            }
-
-        } catch (Exception e){
-            logger.error("Error connecting to " + hostName, e);
-            throw new Exception(errorMessage);
+        if (con.getResponseCode() >= 400) {
+            logger.error("OpenWayback VPP - Error occurred in updating Resource Store.");
         }
+
+        InputStreamReader isr = new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+        BufferedReader in = new BufferedReader(isr);
+
+        String inputLine;
+        while ((inputLine = in.readLine()) != null)
+        {
+//              logger.info("OpenWayback VPP - HttpConnection response: " + inputLine);
+            responseData.append(inputLine);
+        }
+        in.close();
+        con.disconnect();
+        updateResponse = responseData.toString();
 
         return updateResponse;
     }
@@ -110,57 +93,17 @@ public class HttpConnectionService {
      * @return a new Https Connection
      * @throws IOException
      */
-    private HttpsURLConnection getConnection(URL url) throws IOException {
-        HttpsURLConnection con;
+    private HttpURLConnection getConnection(URL url) throws IOException {
+        HttpURLConnection con;
         if(proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0){
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
-            con = (HttpsURLConnection)url.openConnection(proxy);
+            con = (HttpURLConnection)url.openConnection(proxy);
         } else {
-            con = (HttpsURLConnection)url.openConnection();
+            con = (HttpURLConnection)url.openConnection();
         }
 
         return con;
     }
-
-    /**
-     * Sets the default header request properties on the supplied
-     * Https Connection, and any additional properties.
-     *
-     * @param con           the Https Connection to set the properties
-     * @param extraProps    Map of any additional header request properties
-     */
-    private void setHeaderProperties(HttpsURLConnection con, Map<String, String> defaultProps, Map<String, String> extraProps){
-
-//        Map<String, String> defaultProps = getDefaultHeaderRequestPropertyMap();
-
-        for(Map.Entry<String, String> prop : defaultProps.entrySet()){
-            if((prop.getKey() != null) && (!prop.getKey().equals(""))){
-                con.setRequestProperty(prop.getKey(), prop.getValue());
-            }
-        }
-
-        for(Map.Entry<String, String> prop : extraProps.entrySet()){
-            if((prop.getKey() != null) && (!prop.getKey().equals(""))){
-                con.setRequestProperty(prop.getKey(), prop.getValue());
-            }
-        }
-    }
-
-//    /**
-//     * Builds and returns a map of the default header request properties.
-//     *
-//     * @return a Map of the default header request properties
-//     */
-//    private Map<String, String> getDefaultHeaderRequestPropertyMap(String type) {
-//        HashMap<String, String> propertiesMap = Maps.newHashMap();
-//        if(type.equals("search")){
-//            propertiesMap.put("Accept", "application/json");
-//        }
-//        else if(type.equals("update")){
-//            propertiesMap.put("Content-Type", "application/json");
-//        }
-//        return propertiesMap;
-//    }
 
     /**
      * Sets the hostname string.
@@ -169,15 +112,6 @@ public class HttpConnectionService {
      */
     public void setHostName(String hostName) {
         this.hostName = hostName;
-    }
-
-    /**
-     * Sets an api key that is used to connect to a REST-ful api service.
-     *
-     * @param apiKey a REST-ful service api key
-     */
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
     }
 
     /**

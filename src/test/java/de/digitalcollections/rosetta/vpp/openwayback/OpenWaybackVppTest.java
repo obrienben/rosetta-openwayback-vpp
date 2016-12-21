@@ -18,6 +18,7 @@ import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import com.google.gson.Gson;
 import de.digitalcollections.rosetta.vpp.openwayback.service.HttpConnectionService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -35,7 +36,7 @@ public class OpenWaybackVppTest {
     webHarvesting = mock(DnxDocumentHelper.WebHarvesting.class);
     when(webHarvesting.getHarvestDate()).thenReturn("12/03/2014 13:57:04");
     when(webHarvesting.getPrimarySeedURL()).thenReturn("http://wwww.bahn.de");
-    when(resourceStoreConn.post(new byte[])).thenReturn("http://wwww.bahn.de");
+//    when(resourceStoreConn.post(new byte[])).thenReturn("http://wwww.bahn.de");
     doNothing().when(vpp).extractHarvestFilePaths();
     doNothing().when(vpp).updateResourceStore();
   }
@@ -108,6 +109,7 @@ public class OpenWaybackVppTest {
     assertThat(vpp.getMarker(emptyMap()), is("@"));
   }
 
+//  @Ignore("Only needed when testing against a running Resource Store")
   @Test
   public void postFilePathsToResourceStore() throws ParseException {
     HashMap<String, String> filePathsTest = new HashMap<>();
@@ -122,6 +124,7 @@ public class OpenWaybackVppTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    //TODO write assertion for result
     assertThat(result, containsString("20140312135704"));
   }
 }

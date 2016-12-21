@@ -8,6 +8,7 @@ import com.exlibris.dps.sdk.access.Access;
 import com.exlibris.dps.sdk.delivery.AbstractViewerPreProcessor;
 import com.exlibris.dps.sdk.deposit.IEParser;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import de.digitalcollections.rosetta.vpp.openwayback.service.HttpConnectionService;
 import de.digitalcollections.rosetta.vpp.openwayback.service.MetadataService;
 import de.digitalcollections.rosetta.vpp.openwayback.service.WaybackUrlService;
@@ -15,6 +16,7 @@ import gov.loc.mets.*;
 import org.apache.xmlbeans.XmlObject;
 //import org.apache.xmlbeans.XmlObject;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -102,13 +104,11 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
       IEParser ieparserFull = dps_access.getExtendedIeByDvs(dvs, (long) 16);
       MetsType.FileSec fileSec = ieparserFull.getFileSec();
       MetsType.FileSec.FileGrp fileSecGrp = fileSec.getFileGrpArray(0);
-//      logger.info("OpenWayback VPP - fileSecGrp sizeOfFileArray: " + fileSecGrp.sizeOfFileArray());
-//      logger.info("OpenWayback VPP - ieparserFull xml: " + ieparserFull.toXML());
 
       for(FileType fileType : fileSecGrp.getFileArray()) {
         FileType.FLocat location = fileType.getFLocatArray(0);
         String filePath = location.getHref();
-        logger.info("OpenWayback VPP - found filepath: " + filePath);
+//        logger.info("OpenWayback VPP - found filepath: " + filePath);
         if(filePath.endsWith(".warc") || filePath.endsWith(".arc")){
           String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
           paths.put(fileName, filePath);
@@ -130,12 +130,30 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
   public void updateResourceStore() {
 
     byte[] filePathsJSON = new Gson().toJson(filePaths).getBytes();
+    String responseText = "";
 
     try {
-      resourceStoreConn.post(filePathsJSON);
+      responseText = resourceStoreConn.post(filePathsJSON);
     } catch (Exception e) {
-      logger.error("Error in OpenWayback Pre-Processor Plugin - cannot update resource store", e, getPid());
+      logger.error("OpenWayback Pre-Processor Plugin - cannot update resource store", e, getPid());
     }
+
+    Type hashMapType = new TypeToken<HashMap<String, List<String>>>(){}.getType();
+    HashMap<String, List<String>> results = new Gson().fromJson(responseText, hashMapType);
+
+    List<String> success = results.get("success");
+    List<String> fail = results.get("fail");
+
+    // Check for any failures
+    if(!results.get("fail").isEmpty()){
+      logger.error("OpenWayback Pre-Processor Plugin - failed updates for " + getPid() + ": " + results.get("fail").toString());
+    }
+
+    // Check for mismatch
+    if((results.get("success").size() + results.get("fail").size()) != filePaths.size()){
+      logger.error("OpenWayback Pre-Processor Plugin - update mismatch for " + getPid());
+    }
+
 
   }
 
