@@ -13,7 +13,7 @@
 </fr:x_form>
 </pl:initParameters>
   <pl:description>OpenWayback Viewer Pre-Processor</pl:description>
-  <pl:version>1.11</pl:version>
+  <pl:version>1.16</pl:version>
   <pl:materialType>DIGITAL</pl:materialType>
   <pl:module>Delivery</pl:module>
   <pl:generalType>TASK</pl:generalType>

@@ -109,7 +109,7 @@ public class OpenWaybackVppTest {
     assertThat(vpp.getMarker(emptyMap()), is("@"));
   }
 
-//  @Ignore("Only needed when testing against a running Resource Store")
+  @Ignore("Only needed when testing against a running Resource Store")
   @Test
   public void postFilePathsToResourceStore() throws ParseException {
     HashMap<String, String> filePathsTest = new HashMap<>();
@@ -126,5 +126,24 @@ public class OpenWaybackVppTest {
     }
     //TODO write assertion for result
     assertThat(result, containsString("20140312135704"));
+  }
+
+  @Ignore("Only needed when testing against a running Resource Store")
+  @Test
+  public void postTestFilePathsToResourceStore() throws ParseException {
+    HashMap<String, String> filePaths = new HashMap<>();
+    filePaths.put("NLNZ-TI92930263-20151108060042-00000-kaiwae-z4.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\NLNZ-TI92930263-20151108060042-00000-kaiwae-z4.warc");
+    filePaths.put("NLNZ-TI92930263-20151108060054-00001-kaiwae-z4.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\NLNZ-TI92930263-20151108060054-00001-kaiwae-z4.warc");
+    filePaths.put("NLNZ-TI92930263-20151108111900-00002-kaiwae-z4.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\NLNZ-TI92930263-20151108111900-00002-kaiwae-z4.warc");
+    filePaths.put("NLNZ-TI92930263-20151108112503-00003-kaiwae-z4.warc", "C:\\\\wct\\\\openwayback2.2\\\\store\\\\oversixty\\\\NLNZ-TI92930263-20151108112503-00003-kaiwae-z4.warc");
+    byte[] filePathsJSON = new Gson().toJson(filePaths).getBytes();
+    String result = null;
+    try {
+      result = resourceStoreConn.post(filePathsJSON);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    //TODO write assertion for result
+//    assertThat(result, containsString("20140312135704"));
   }
 }

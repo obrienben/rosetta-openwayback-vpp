@@ -16,11 +16,18 @@ public class WaybackUrlService {
   } 
   
   public String createDetailUrlPath(String seed, Date harvestDate) {
+    if(seed.contains(" ")){
+      String[] seeds = seed.split("\\s+");
+      if(seeds.length > 0){
+        // Only take first seed
+        seed = seeds[0];
+      }
+    }
     return "/" + urlDateString(harvestDate) + "/" + seed;
   }
   
   public String createOverviewQueryString(String seed) {
     return "url=" + seed;
   }
-  
+
 }

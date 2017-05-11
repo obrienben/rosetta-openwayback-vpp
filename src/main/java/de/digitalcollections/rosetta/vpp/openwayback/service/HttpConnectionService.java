@@ -1,16 +1,10 @@
 package de.digitalcollections.rosetta.vpp.openwayback.service;
 
 
-//import com.google.common.collect.Maps;
-//import nz.govt.natlib.spineLabel.exceptions.SpineLabelException;
 import com.exlibris.core.infra.common.exceptions.logging.ExLogger;
-
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This class provides a service for querying a REST-ful api web service, and in the process
@@ -21,7 +15,7 @@ import java.util.Map;
 public class HttpConnectionService {
     private static final ExLogger logger = ExLogger.getExLogger(HttpConnectionService.class);
 
-    private String hostName = "http://localhost:8080/OWResourceStore/";
+    private String hostName = "";
     private String proxyHost = null;
     private int proxyPort;
     private String errorMessage = "Error executing query. Please try again, and if the issue persists please contact Support";
@@ -45,8 +39,6 @@ public class HttpConnectionService {
         String updateResponse = "";
         // Build and append query string
         urlBuilder = new StringBuilder(hostName);
-//            urlBuilder.append(apiCall);
-//            buildQueryString(urlBuilder, extraQueryStringParameters);
         URL restUrl = new URL(urlBuilder.toString());
 
         // Establish HTTP connection
@@ -54,10 +46,6 @@ public class HttpConnectionService {
         con.setRequestMethod("POST");
         con.setFixedLengthStreamingMode(requestBody.length);
         con.setDoOutput(true);
-
-        // Set any Header request properties
-//            con.setRequestProperty("Content-Type", "application/json");
-//            setHeaderProperties(con, getDefaultHeaderRequestPropertyMap("update"), extraHeaderRequestProperties);
 
         logger.info("OpenWayback VPP - HttpConnection post to: " + urlBuilder.toString());
 
