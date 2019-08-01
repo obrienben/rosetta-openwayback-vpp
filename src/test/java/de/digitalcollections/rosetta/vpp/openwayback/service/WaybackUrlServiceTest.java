@@ -33,6 +33,12 @@ public class WaybackUrlServiceTest {
   }
 
   @Test
+  public void createDetailUrlPathEscapeQuestionSymbol() throws ParseException {
+    Date date = FORMAT.parse("01/08/2012 23:07:05");
+    assertThat(service.createDetailUrlPath("https://example.com/?u=57af&id=7b011d", date), is("/20120801230705/https://example.com/[q-mark]u=57af&id=7b011d"));
+  }
+
+  @Test
   public void createOverviewQueryStringShouldReturnValidQueryString() {
     assertThat(service.createOverviewQueryString("http://example.com"), is("url=http://example.com"));
   }

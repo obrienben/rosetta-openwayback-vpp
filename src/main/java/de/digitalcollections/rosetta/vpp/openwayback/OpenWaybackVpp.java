@@ -72,6 +72,7 @@ public class OpenWaybackVpp extends AbstractViewerPreProcessor {
     builder.append(marker);
     builder.append(waybackUrlService.createDetailUrlPath(webHarvesting.getPrimarySeedURL(), metadataService.parseHarvestDate(webHarvesting.getHarvestDate())));
     builder.append(marker);
+    logger.info("OpenWayback Pre-Processor Plugin - URL built: " + builder.toString());
     return builder.toString();
   }
 

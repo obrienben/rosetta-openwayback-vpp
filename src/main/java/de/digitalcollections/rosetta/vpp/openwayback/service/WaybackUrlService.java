@@ -23,6 +23,11 @@ public class WaybackUrlService {
         seed = seeds[0];
       }
     }
+
+    if(seed.contains("?")){
+        seed = seed.replace("?", "[q-mark]");
+    }
+
     return "/" + urlDateString(harvestDate) + "/" + seed;
   }
   
