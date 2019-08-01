@@ -46,6 +46,9 @@ An example configuration for Apache Webserver. Only needed for detail mode. Same
 
 ```apache
 RewriteEngine on
+RewriteCond %{QUERY_STRING} ^(.)[q-mark](.)$
+RewriteCond %{QUERY_STRING} ^(([^&]&))@(.)[q-mark](.)@(.*)$
+RewriteRule ^/webarchive/wayback/query$ /webarchive/wayback%3?%4 [L,PT]
 RewriteCond %{QUERY_STRING} ^(([^&]*&)*)@(.*)@(.*)$
 RewriteRule ^/wayback/query$ /wayback%3? [L,PT]
 ```
