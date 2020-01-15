@@ -28,6 +28,10 @@ public class WaybackUrlService {
         seed = seed.replace("?", "[q-mark]");
     }
 
+    if(seed.contains("#")){
+      seed = seed.replace("#", "[anchor]");
+    }
+
     return "/" + urlDateString(harvestDate) + "/" + seed;
   }
   
